@@ -1,0 +1,17 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.ashwin.android.enhancedgeofencejava">
+    <application>
+        <receiver
+            android:name="com.ashwin.android.enhancedgeofencejava.EnhancedGeofenceReceiver"
+            android:enabled="true"
+            android:exported="true" />
+
+        <receiver android:name="com.ashwin.android.enhancedgeofencejava.GeofenceBootupReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+    </application>
+</manifest>

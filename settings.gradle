@@ -1,0 +1,2 @@
+include ':app', ':enhanced-geofence-java'
+rootProject.name='Enhanced Geofence Java Demo'

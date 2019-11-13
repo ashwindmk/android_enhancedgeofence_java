@@ -1,0 +1,115 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'com.github.dcendents.android-maven'
+
+android {
+    compileSdkVersion 29
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled false
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    //implementation(name:'diy-geofence-java-release', ext:'aar')
+    //implementation files('libs/diy-geofence-java.aar')
+    implementation 'com.ashwin.android:diy-geofence-java:0.0.2'
+
+    compileOnly ('com.google.android.gms:play-services-location:17.0.0') {
+        exclude module: 'support-v4'
+    }
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+}
+
+// Bintray
+Properties properties = new Properties()
+properties.load(project.file('local.properties').newDataInputStream())
+
+def groupid = "com.ashwin.android"
+def artifactid = "enhanced-geofence-java"
+version = "0.0.2"
+group = groupid
+
+task androidSourcesJar(type: Jar) {
+    classifier = 'sources'
+    from android.sourceSets.main.java.sourceFiles
+}
+
+task androidJavadocs(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    options.links("http://docs.oracle.com/javase/7/docs/api/");
+    options.linksOffline "http://d.android.com/reference","${android.sdkDirectory}/docs/reference"
+    exclude '**/BuildConfig.java'
+    exclude '**/R.java'
+    failOnError = false
+}
+
+task androidJavadocsJar(type: Jar, dependsOn: androidJavadocs) {
+    classifier = 'javadoc'
+    from androidJavadocs.destinationDir
+}
+
+artifacts {
+    archives androidSourcesJar
+    archives androidJavadocsJar
+}
+
+install {
+    repositories.mavenInstaller {
+        // This generates POM.xml with proper parameters
+        pom {
+            project {
+                packaging 'aar'
+                groupId groupid
+                artifactId artifactid
+                name artifactid
+                developers {
+                    developer {
+                        id 'ashwin-dinesh'
+                        name 'Ashwin Dinesh'
+                        email properties.getProperty("email")
+                    }
+                }
+            }
+        }
+    }
+}
+
+bintray {
+    user = properties.getProperty("user")
+    key = properties.getProperty("key")
+    configurations = ['archives']
+    pkg {
+        repo = 'maven'
+        name = artifactid
+        vcsUrl = 'https://github.com/ashwindmk/android_enhancedgeofence_java.git'
+        licenses = ['Apache-2.0']
+        publish = true
+        version {
+            name = version
+            vcsTag = version
+        }
+    }
+}
