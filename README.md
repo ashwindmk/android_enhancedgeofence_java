@@ -3,6 +3,8 @@
 
 This Android library registers [Geofences](https://developer.android.com/training/location/geofencing) as well as uses [DIY Geofence](https://github.com/ashwindmk/android_diygeofence_java).
 
+[ ![Download](https://api.bintray.com/packages/ashwin-dinesh/maven/enhanced-geofence-java/images/download.svg) ](https://bintray.com/ashwin-dinesh/maven/enhanced-geofence-java/_latestVersion)
+
 
 ### Advantages:
 
