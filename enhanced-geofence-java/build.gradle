@@ -42,7 +42,6 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 }
 
-// Bintray
 Properties properties = new Properties()
 properties.load(project.file('local.properties').newDataInputStream())
 
@@ -108,8 +107,8 @@ bintray {
         licenses = ['Apache-2.0']
         publish = true
         version {
-            name = version
-            vcsTag = version
+            name = "0.0.2"
+            vcsTag = "0.0.2"
         }
     }
 }
