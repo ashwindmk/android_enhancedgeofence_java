@@ -85,7 +85,51 @@ public class YourApplication extends Application {
 
 ### Usage
 
-You will get on-enter and on-exit callbacks on Main thread.
+##### Add geofence:
+
+```java
+    String geofenceId = "geofence-id";
+    double latitude = 19.0607;
+    double longitude = 72.8416;
+    float radius = 500f;
+    EnhancedGeofence.addGeofence(context, geofenceId, latitude, longitude, radius);
+```
+
+
+##### Remove geofence:
+
+```java
+    String geofenceId = "geofence-id";
+    EnhancedGeofence.removeGeofence(context, geofenceId);
+```
+
+
+##### Remove all geofences:
+
+```java
+    EnhancedGeofence.removeAllGeofences(context);
+```
+
+
+##### Get on-enter and on-exit callbacks on Main thread.
+
+Register EnhancedGeofenceListener implementation class in your Application class:
+
+```java
+public class YourApplication extends Application {
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        ...
+
+        EnhancedGeofence.setGeofenceListener(new YourGeofenceListener());
+    }
+}
+```
+
+
+Get on-enter and on-exit callbacks on Main thread.
 
 ```java
 public class YourGeofenceListener implements EnhancedGeofenceListener {
@@ -97,21 +141,6 @@ public class YourGeofenceListener implements EnhancedGeofenceListener {
     @Override
     public void onExit(Context context, String id) {
         // Exited geofence: ${id}
-    }
-}
-```
-
-Make sure to register this class in your Application class:
-
-```java
-public class YourApplication extends Application {
-    @Override
-    public void onCreate() {
-        super.onCreate();
-
-        ...
-
-        EnhancedGeofence.setGeofenceListener(new YourGeofenceListener());
     }
 }
 ```
